@@ -1,1 +1,4 @@
 *.asta.lock
+.DS_Store
+.idea
+.vscode
