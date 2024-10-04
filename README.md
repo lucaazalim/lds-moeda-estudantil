@@ -1,4 +1,4 @@
-#Sistema de Moeda Estudantil
+# Sistema de Moeda Estudantil
 **PUC MINAS PRAÇA DA LIBERDADE - Laboratório de Desenvolvimento de Software (Trabalho 02)**
 
 **Alunos:** Lucas Garcia, Joao Victor Salim e Luca Azalim
