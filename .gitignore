@@ -1,4 +1,5 @@
 *.asta.lock
+*.png.bak
 .DS_Store
 .idea
 .vscode
