@@ -1,0 +1,60 @@
+Table "usuario" {
+  "id" bigint [pk, not null]
+  "nome" varchar(200) [not null]
+  "identificacao" varchar(14) [not null]
+  "email" varchar(200) [not null]
+  "senha" text [not null]
+  "saldo" int [not null]
+  "tipo" "enum" [not null]
+}
+
+Table "aluno" {
+  "id_usuario" bigint [pk, not null]
+  "id_instituicao_ensino" bigint [not null]
+  "rg" varchar(10) unique [not null]
+  "endereco" varchar(300) [not null]
+  "curso" varchar(100) [not null]
+}
+
+Table "professor" {
+  "id_usuario" bigint [not null]
+  "id_instituicao_ensino" bigint [not null]
+  "departamento" varchar(100) [not null]
+}
+
+Table "instituicao_ensino" {
+  "id" bigint [pk, not null]
+  "razao_social" varchar(100) [not null]
+  "cnpj" varchar(14) [not null]
+}
+
+Table "transacao" {
+  "id" bigint [pk, not null]
+  "quantidade" int [not null]
+  "motivo" varchar(300) [not null]
+  "id_usuario_de" bigint [not null]
+  "id_usuario_para" bigint [not null]
+}
+
+Table "vantagem" {
+  "id" bigint [pk, not null]
+  "id_empresa_parceira" bigint [not null]
+  "nome" varchar(100) [not null]
+  "descricao" varchar(200) [not null]
+  "foto" blob
+  "custo" int [not null]
+}
+
+Ref: "usuario"."id" < "aluno"."id_usuario"
+
+Ref: "usuario"."id" < "professor"."id_usuario"
+
+Ref: "usuario"."id" < "transacao"."id_usuario_de"
+
+Ref: "usuario"."id" < "transacao"."id_usuario_para"
+
+Ref: "usuario"."id" < "vantagem"."id_empresa_parceira"
+
+Ref: "instituicao_ensino"."id" < "aluno"."id_instituicao_ensino"
+
+Ref: "instituicao_ensino"."id" < "professor"."id_instituicao_ensino"
