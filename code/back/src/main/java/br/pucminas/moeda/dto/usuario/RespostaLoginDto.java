@@ -1,9 +1,9 @@
-package br.pucminas.moeda.dto.cliente;
+package br.pucminas.moeda.dto.usuario;
 
 import lombok.Data;
 
 @Data
-public class LoginDto {
+public class RespostaLoginDto {
 
     private String token;
     private long expiraEm;

@@ -18,13 +18,12 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
-public abstract class Usuario implements UserDetails {
-
-    private TipoUsuario tipo;
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Usuario implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
     @Column(nullable = false)
@@ -43,6 +42,10 @@ public abstract class Usuario implements UserDetails {
 
     @Column(nullable = false)
     private int saldo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoUsuario tipo;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,6 +1,6 @@
 package br.pucminas.moeda.configs;
 
-import br.pucminas.moeda.repositories.AlunoRepository;
+import br.pucminas.moeda.repositories.UsuarioRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,16 +14,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class ApplicationConfiguration {
 
-    private final AlunoRepository alunoRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public ApplicationConfiguration(AlunoRepository alunoRepository) {
-        this.alunoRepository = alunoRepository;
+    public ApplicationConfiguration(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Bean
     UserDetailsService userDetailsService() {
-        return username -> alunoRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Aluno não encontrado"));
+        return username -> usuarioRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
     }
 
     @Bean
