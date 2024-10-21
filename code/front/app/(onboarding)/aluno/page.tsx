@@ -1,3 +1,3 @@
 export default function Page() {
-    return <div>Estudante</div>;
+    return <div>Formulário para editar aluno e botão de deletar conta</div>;
 }
