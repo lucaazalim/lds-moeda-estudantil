@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/alunos")
+@RequestMapping("/empresas-parceiras")
 public class EmpresaParceiraController {
 
     @Autowired

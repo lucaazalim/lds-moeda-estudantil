@@ -6,17 +6,12 @@ import {zodResolver} from "@hookform/resolvers/zod"
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-
-/*
-Campos:
-- Nome
-- Identificação (CPF/CNPJ)
-- Email
-- Senha
-- RG
-- Endereço
-- Curso
- */
+import {Aluno} from "@/lib/types";
+import {toast} from "@/hooks/use-toast";
+import {useRouter} from "next/navigation";
+import Link from "next/link";
+import {criarAluno} from "@/lib/alunoService";
+import {logarUsuario, useUsuarioStore} from "@/lib/usuarioService";
 
 const formSchema = z.object({
     nome: z.string().min(3).max(50),
@@ -29,6 +24,9 @@ const formSchema = z.object({
 });
 
 export default function Page() {
+
+    const {setUsuario} = useUsuarioStore();
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -43,16 +41,39 @@ export default function Page() {
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+
+        try {
+
+            setUsuario((await criarAluno(values)) as Aluno);
+            await logarUsuario(values);
+
+            toast({
+                title: "Seja bem-vindo!",
+                description: "Cadastro realizado com sucesso.",
+            })
+
+            router.push('/aluno');
+
+        } catch (error) {
+
+            toast({
+                title: (error as Error).message,
+                description: "Tente novamente mais tarde.",
+                variant: "destructive"
+            })
+
+            console.error(error);
+        }
+
     }
 
     return <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[500px]">
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <h1 className="text-center text-2xl font-semibold">Cadastre-se como aluno</h1>
+
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 
                 <FormField
                     control={form.control}
@@ -75,7 +96,7 @@ export default function Page() {
                         <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Input placeholder="exemplo@exemplo.com" {...field} />
                             </FormControl>
                             <FormMessage/>
                         </FormItem>
@@ -89,7 +110,7 @@ export default function Page() {
                         <FormItem>
                             <FormLabel>CPF</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Input placeholder="000.000.000-00" {...field} />
                             </FormControl>
                             <FormMessage/>
                         </FormItem>
@@ -103,7 +124,7 @@ export default function Page() {
                         <FormItem>
                             <FormLabel>RG</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Input placeholder="MG-00.000.000" {...field} />
                             </FormControl>
                             <FormMessage/>
                         </FormItem>
@@ -131,7 +152,7 @@ export default function Page() {
                         <FormItem>
                             <FormLabel>Senha</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Input type="password" {...field} />
                             </FormControl>
                             <FormMessage/>
                         </FormItem>
@@ -154,7 +175,12 @@ export default function Page() {
 
             </div>
 
-            <Button type="submit" className="w-full">Cadastrar</Button>
+            <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>Cadastrar</Button>
+            <p className="text-center">Já possui uma conta?{" "}
+                <Link className="font-bold text-primary" href="/login">
+                    Entre!
+                </Link>
+            </p>
         </form>
     </Form>;
 
