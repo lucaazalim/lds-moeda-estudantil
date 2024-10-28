@@ -60,7 +60,7 @@ export default function Page() {
     return <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[500px]">
 
-            <h1 className="text-center text-2xl font-semibold">Atualize seu cadastro de aluno</h1>
+            <h1 className="text-center text-2xl font-semibold">Atualize seu cadastro de empresa parceira</h1>
 
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 

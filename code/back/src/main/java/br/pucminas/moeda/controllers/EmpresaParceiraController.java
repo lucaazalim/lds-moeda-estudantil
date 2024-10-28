@@ -29,7 +29,7 @@ public class EmpresaParceiraController {
 
         EmpresaParceira empresaParceira = objectMapper.convertValue(criarEmpresaParceiraDto, EmpresaParceira.class);
 
-        empresaParceira.setTipo(TipoUsuario.ALUNO);
+        empresaParceira.setTipo(TipoUsuario.EMPRESA_PARCEIRA);
         empresaParceira.setSenha(passwordEncoder.encode(criarEmpresaParceiraDto.getSenha()));
 
         empresaParceira = empresaParceiraRepository.save(empresaParceira);

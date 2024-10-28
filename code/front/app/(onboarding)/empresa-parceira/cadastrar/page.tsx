@@ -15,7 +15,7 @@ import {criarEmpresaParceira} from "@/lib/empresaParceiraService";
 
 const formSchema = z.object({
     nome: z.string().min(3).max(50),
-    identificacao: z.string().length(11),
+    identificacao: z.string().length(14),
     email: z.string().email(),
     senha: z.string().min(8).max(50)
 });
@@ -47,7 +47,7 @@ export default function Page() {
                 description: "Cadastro realizado com sucesso.",
             })
 
-            router.push('/aluno');
+            router.push('/empresa-parceira');
 
         } catch (error) {
 
