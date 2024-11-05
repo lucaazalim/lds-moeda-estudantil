@@ -14,7 +14,11 @@ const rotasDeAutenticacao = [
 
 const rotasAutenticadas = [
     '/aluno',
-    '/empresa-parceira'
+    '/aluno/atualizar',
+    '/aluno/vantagens',
+    '/empresa-parceira',
+    '/empresa-parceira/atualizar',
+    '/empresa-parceira/vantagens'
 ]
 
 export async function middleware(request: NextRequest) {

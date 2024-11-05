@@ -7,14 +7,14 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL + "/usuarios";
 type UsuarioState = {
     token: string | null | undefined;
     usuario: Usuario | null | undefined;
-    setToken: (token: string) => void;
+    setToken: (token: string | null) => void;
     setUsuario: (usuario: Usuario | null) => void;
 };
 
 export const useUsuarioStore = create<UsuarioState>()((set) => ({
     token: undefined,
     usuario: undefined,
-    setToken: (token: string) => {
+    setToken: (token: string | null) => {
         set({token});
     },
     setUsuario: (usuario: Usuario | null) => {
