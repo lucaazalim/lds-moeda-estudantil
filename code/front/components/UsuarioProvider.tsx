@@ -3,7 +3,6 @@
 import {useEffect} from "react";
 import Cookies from "js-cookie";
 import {obterUsuario, useUsuarioStore} from "@/lib/usuarioService";
-import {Skeleton} from "@/components/ui/skeleton";
 import {LoaderCircle} from "lucide-react";
 
 export default function UsuarioProvider({children}: Readonly<{ children: React.ReactNode }>) {

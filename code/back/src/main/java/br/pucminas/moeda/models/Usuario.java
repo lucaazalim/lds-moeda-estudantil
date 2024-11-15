@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -46,6 +47,12 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TipoUsuario tipo;
+
+    @OneToMany(mappedBy = "de")
+    private Set<Transacao> transacoesEnviadas;
+
+    @OneToMany(mappedBy = "para")
+    private Set<Transacao> transacoesRecebidas;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

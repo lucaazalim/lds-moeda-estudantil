@@ -18,6 +18,9 @@ export default function Page() {
             <Link href={ROUTES.ALUNO_VANTAGENS}>
                 <Button className="w-full">Ver vantagens</Button>
             </Link>
+            <Link href={ROUTES.EXTRATO}>
+                <Button className="w-full">Extrato</Button>
+            </Link>
         </div>
     </div>
 }

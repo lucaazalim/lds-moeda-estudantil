@@ -9,6 +9,7 @@ type UsuarioState = {
     usuario: Usuario | null | undefined;
     setToken: (token: string | null) => void;
     setUsuario: (usuario: Usuario | null) => void;
+    reduzirSaldo: (quantidade: number) => void;
 };
 
 export const useUsuarioStore = create<UsuarioState>()((set) => ({
@@ -19,6 +20,22 @@ export const useUsuarioStore = create<UsuarioState>()((set) => ({
     },
     setUsuario: (usuario: Usuario | null) => {
         set({usuario});
+    },
+    reduzirSaldo: (quantidade: number) => {
+        set((state: UsuarioState) => {
+
+            if (!state.usuario) return state;
+
+            const novoSaldo = state.usuario?.saldo - quantidade;
+
+            return {
+                usuario: {
+                    ...state.usuario,
+                    saldo: novoSaldo
+                }
+            }
+
+        })
     },
 }));
 

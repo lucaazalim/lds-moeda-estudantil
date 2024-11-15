@@ -38,7 +38,7 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
-                                .requestMatchers(HttpMethod.POST, new String[]{"/usuarios/login", "/alunos", "/empresas-parceiras"}).permitAll()
+                                .requestMatchers(HttpMethod.POST, new String[]{"/usuarios/login", "/alunos", "/empresas-parceiras", "/professores"}).permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
                                 .requestMatchers("/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated()

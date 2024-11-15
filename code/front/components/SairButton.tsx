@@ -16,7 +16,7 @@ export default function SairButton() {
 
     return <Button
         aria-label="Sair"
-        className="absolute top-auto right-5"
+        className="motion-opacity-in-[0%] absolute top-auto right-5 flex items-center gap-1"
         variant="secondary"
         onClick={() => {
             router.push(ROUTES.HOME);
@@ -24,6 +24,7 @@ export default function SairButton() {
             setToken(null);
             setUsuario(null);
         }}>
+        <span>{usuario.nome.split(" ")[0]}</span>
         <LogOutIcon/>
     </Button>
 }

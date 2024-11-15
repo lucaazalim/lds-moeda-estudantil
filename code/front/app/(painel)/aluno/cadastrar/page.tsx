@@ -12,6 +12,7 @@ import {useRouter} from "next/navigation";
 import Link from "next/link";
 import {criarAluno} from "@/lib/alunoService";
 import {logarUsuario, useUsuarioStore} from "@/lib/usuarioService";
+import {ROUTES} from "@/lib/constants";
 
 const formSchema = z.object({
     nome: z.string().min(3).max(50),
@@ -53,7 +54,7 @@ export default function Page() {
                 description: "Cadastro realizado com sucesso.",
             })
 
-            router.push('/aluno');
+            router.push(ROUTES.ALUNO);
 
         } catch (error) {
 

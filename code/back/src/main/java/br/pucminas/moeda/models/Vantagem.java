@@ -1,6 +1,7 @@
 package br.pucminas.moeda.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Vantagem {
     @NotBlank
     private String nome, descricao, foto;
 
+    @Min(0)
     @Column(nullable = false)
     private int custo;
 

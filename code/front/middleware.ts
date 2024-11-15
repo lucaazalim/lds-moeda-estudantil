@@ -9,16 +9,21 @@ const publicRoutes = [
 const rotasDeAutenticacao = [
     '/login',
     '/aluno/cadastrar',
-    '/empresa-parceira/cadastrar'
+    '/empresa-parceira/cadastrar',
+    '/professor/cadastrar'
 ]
 
 const rotasAutenticadas = [
+    '/extrato',
     '/aluno',
     '/aluno/atualizar',
     '/aluno/vantagens',
     '/empresa-parceira',
     '/empresa-parceira/atualizar',
-    '/empresa-parceira/vantagens'
+    '/empresa-parceira/vantagens',
+    '/professor',
+    '/professor/atualizar',
+    '/professor/enviar'
 ]
 
 export async function middleware(request: NextRequest) {
@@ -55,16 +60,30 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL('/empresa-parceira', request.url));
         }
 
+        if (usuario?.tipo === TipoUsuario.PROFESSOR) {
+            return NextResponse.redirect(new URL('/professor', request.url));
+        }
+
     } else if (rotasAutenticadas.includes(url.pathname)) {
 
-        if(!usuario) return NextResponse.redirect(new URL('/login', request.url));
+        console.log("Debug #1", usuario);
 
-        if(usuario.tipo === TipoUsuario.ALUNO && url.pathname === '/empresa-parceira') {
+        if (!usuario) return NextResponse.redirect(new URL('/login', request.url));
+
+        if (url.pathname === '/extrato') {
+            return NextResponse.next()
+        }
+
+        if (usuario.tipo === TipoUsuario.ALUNO && !url.pathname.includes('/aluno')) {
             return NextResponse.redirect(new URL('/aluno', request.url));
         }
 
-        if(usuario.tipo === TipoUsuario.EMPRESA_PARCEIRA && url.pathname === '/aluno') {
+        if (usuario.tipo === TipoUsuario.EMPRESA_PARCEIRA && !url.pathname.includes('/empresa-parceira')) {
             return NextResponse.redirect(new URL('/empresa-parceira', request.url));
+        }
+
+        if (usuario.tipo === TipoUsuario.PROFESSOR && !url.pathname.includes('/professor')) {
+            return NextResponse.redirect(new URL('/professor', request.url));
         }
 
     }

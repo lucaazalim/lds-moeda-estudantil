@@ -3,13 +3,16 @@
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
+import {ROUTES} from "@/lib/constants";
+import {cn} from "@/lib/utils";
 
 export default function Home() {
+
     return (
         <div>
             <div className="flex flex-col items-center justify-center bg-primary text-primary-foreground h-[400px]">
-                <h1 className="text-8xl font-bold drop-shadow-lg">Moeda Estudantil</h1>
-                <h2 className="text-4xl drop-shadow-lg">Sua performance acadêmica vale prêmios!</h2>
+                <h1 className="text-8xl font-bold drop-shadow-lg motion-opacity-in-[0%] motion-duration-[1s] motion-ease-spring-smooth">Moeda Estudantil</h1>
+                <h2 className="text-4xl drop-shadow-lg motion-preset-typewriter-[39] motion-duration-[10s]">Sua performance acadêmica vale prêmios!</h2>
                 <Link href="/login">
                     <Button size="lg" variant="secondary" className="mt-5 text-base">
                         Acessar plataforma
@@ -21,19 +24,22 @@ export default function Home() {
                     src="/graduating-student.png"
                     alt="Aluno"
                     title="Aluno"
-                    href="/aluno/cadastrar"
+                    href={ROUTES.ALUNO_CADASTRAR}
+                    className="motion-translate-x-in-[0%] motion-translate-y-in-[50%] motion-opacity-in-[0%] motion-ease-spring-smooth motion-delay-100"
                 />
                 <RoleCard
                     src="/professor.png"
                     alt="Professor"
                     title="Professor"
-                    href="/professor/cadastrar"
+                    href={ROUTES.PROFESSOR_CADASTRAR}
+                    className="motion-translate-x-in-[0%] motion-translate-y-in-[50%] motion-opacity-in-[0%] motion-ease-spring-smooth motion-delay-200"
                 />
                 <RoleCard
                     src="/office-building.png"
                     alt="Empresa Parceira"
                     title="Empresa Parceira"
-                    href="/empresa-parceira/cadastrar"
+                    href={ROUTES.EMPRESA_PARCEIRA_CADASTRAR}
+                    className="motion-translate-x-in-[0%] motion-translate-y-in-[50%] motion-opacity-in-[0%] motion-ease-spring-smooth motion-delay-300"
                 />
             </div>
         </div>
@@ -45,10 +51,11 @@ type RoleCardProps = {
     alt: string;
     title: string;
     href: string;
+    className?: string;
 };
 
-const RoleCard = ({src, alt, title, href}: RoleCardProps) => (
-    <div className="flex items-center justify-center drop-shadow-lg py-[100px]">
+const RoleCard = ({src, alt, title, href, className}: RoleCardProps) => (
+    <div className={cn("flex items-center justify-center drop-shadow-lg py-[100px]", className)}>
         <div className="h-fit rounded-3xl p-10 bg-primary w-[300px]">
             <Image
                 src={src}

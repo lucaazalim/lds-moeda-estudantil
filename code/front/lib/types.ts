@@ -1,6 +1,7 @@
 export enum TipoUsuario {
     ALUNO = "ALUNO",
-    EMPRESA_PARCEIRA = "EMPRESA_PARCEIRA"
+    EMPRESA_PARCEIRA = "EMPRESA_PARCEIRA",
+    PROFESSOR = "PROFESSOR"
 }
 
 // Usuario
@@ -12,6 +13,13 @@ export interface Usuario {
     email: string;
     saldo: number;
     tipo: TipoUsuario;
+    transacoesEnviadas: Transacao[];
+    transacoesRecebidas: Transacao[];
+}
+
+export interface UsuarioSimples {
+    id: number;
+    nome: string;
 }
 
 export interface CriarUsuarioDto {
@@ -67,6 +75,20 @@ export interface CriarEmpresaParceiraDto extends CriarUsuarioDto {
 export interface AtualizarEmpresaParceiraDto extends AtualizarUsuarioDto {
 }
 
+// Professor
+
+export interface Professor extends Usuario {
+    departamento: string;
+}
+
+export interface CriarProfessorDto extends CriarUsuarioDto {
+    departamento: string;
+}
+
+export interface AtualizarProfessorDto extends AtualizarUsuarioDto {
+    departamento: string;
+}
+
 // Vantagem
 
 export interface Vantagem {
@@ -89,4 +111,21 @@ export interface AtualizarVantagemDto {
     descricao: string;
     foto: string;
     custo: number;
+}
+
+// Transacao
+
+export interface Transacao {
+    id: number;
+    quantidade: number;
+    motivo: string;
+    de?: UsuarioSimples;
+    para?: UsuarioSimples;
+    criadaEm: string;
+}
+
+export interface CriarTransacaoDto {
+    quantidade: number;
+    motivo: string;
+    paraId: number;
 }

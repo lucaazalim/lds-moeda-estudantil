@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/alunos")
 public class AlunoController {
@@ -45,6 +48,14 @@ public class AlunoController {
 
         return objectMapper.convertValue(aluno, AlunoDto.class);
 
+    }
+
+    @GetMapping
+    public List<AlunoDto> obterTodosAlunos() {
+        List<Aluno> alunos = alunoRepository.findAll();
+        return alunos.stream()
+                .map(aluno -> objectMapper.convertValue(aluno, AlunoDto.class))
+                .collect(Collectors.toList());
     }
 
     @PutMapping("/{id}")
