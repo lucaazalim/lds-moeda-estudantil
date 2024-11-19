@@ -36,25 +36,21 @@ public class TransacaoController {
     public TransacaoDto criarTransacao(@RequestBody CriarTransacaoDto criarTransacaoDto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario de = usuarioRepository.findByEmail(authentication.getName()).orElseThrow();
 
-        String email = authentication.getName();
-        Usuario usuarioAutenticado = usuarioRepository.findByEmail(email).orElseThrow();
-
-        if (usuarioAutenticado.getId() == criarTransacaoDto.getParaId()) {
+        if (de.getId() == criarTransacaoDto.getParaId()) {
             throw new IllegalArgumentException("De e para não podem ser iguais");
         }
-
-        Transacao transacao = objectMapper.convertValue(criarTransacaoDto, Transacao.class);
-
-        Usuario de = usuarioRepository.findById(usuarioAutenticado.getId()).orElseThrow();
-        Usuario para = usuarioRepository.findById(criarTransacaoDto.getParaId()).orElseThrow();
-
-        transacao.setDe(de);
-        transacao.setPara(para);
 
         if (de.getSaldo() < criarTransacaoDto.getQuantidade()) {
             throw new IllegalArgumentException("Saldo insuficiente!");
         }
+
+        Usuario para = usuarioRepository.findById(criarTransacaoDto.getParaId()).orElseThrow();
+        Transacao transacao = objectMapper.convertValue(criarTransacaoDto, Transacao.class);
+
+        transacao.setDe(de);
+        transacao.setPara(para);
 
         de.setSaldo(de.getSaldo() - criarTransacaoDto.getQuantidade());
         para.setSaldo(para.getSaldo() + criarTransacaoDto.getQuantidade());
