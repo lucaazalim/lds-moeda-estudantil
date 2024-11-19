@@ -6,6 +6,9 @@ import {useEffect, useState} from "react";
 import {obterVantagens} from "@/lib/vantagemService";
 import {CircleDollarSign} from "lucide-react";
 import {Button} from "@/components/ui/button";
+import {criarTransacao} from "@/lib/transacaoService";
+import {toast} from "@/hooks/use-toast";
+import {useUsuarioStore} from "@/lib/usuarioService";
 
 export default function Page() {
 
@@ -18,11 +21,11 @@ export default function Page() {
         })();
     }, []);
 
-    if(vantagens === undefined) {
+    if (vantagens === undefined) {
         return null;
     }
 
-    if(vantagens.length === 0) {
+    if (vantagens.length === 0) {
         return <h1 className="text-center text-2xl">
             Nenhuma vantagem disponível :(
         </h1>;
@@ -47,7 +50,35 @@ export default function Page() {
                                 {vantagem.custo}
                             </p>
                         </div>
-                        <Button>Comprar</Button>
+                        <Button onClick={async (e) => {
+
+                            try {
+
+                                await criarTransacao({
+                                    paraId: vantagem.empresaParceiraId,
+                                    quantidade: vantagem.custo,
+                                    motivo: "Compra de vantagem: " + vantagem.nome
+                                });
+
+                                toast({
+                                    title: "Vantagem resgatada com sucesso!",
+                                    description: vantagem.nome,
+                                });
+
+                                useUsuarioStore.getState().reduzirSaldo(vantagem.custo);
+
+                            } catch (error) {
+
+                                toast({
+                                    title: (error as Error).message,
+                                    variant: "destructive"
+                                })
+
+                                console.error(error);
+
+                            }
+
+                        }}>Resgatar</Button>
                     </CardFooter>
                 </Card>
             ))}

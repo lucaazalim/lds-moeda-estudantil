@@ -1,8 +1,8 @@
 package br.pucminas.moeda.controllers;
 
-import br.pucminas.moeda.dto.empresa_parceira.EmpresaParceiraDto;
 import br.pucminas.moeda.dto.empresa_parceira.AtualizarEmpresaParceiraDto;
 import br.pucminas.moeda.dto.empresa_parceira.CriarEmpresaParceiraDto;
+import br.pucminas.moeda.dto.empresa_parceira.EmpresaParceiraDto;
 import br.pucminas.moeda.enumeradores.TipoUsuario;
 import br.pucminas.moeda.models.EmpresaParceira;
 import br.pucminas.moeda.repositories.EmpresaParceiraRepository;

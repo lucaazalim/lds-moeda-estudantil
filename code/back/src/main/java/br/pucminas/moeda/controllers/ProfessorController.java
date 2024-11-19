@@ -1,8 +1,8 @@
 package br.pucminas.moeda.controllers;
 
-import br.pucminas.moeda.dto.professor.ProfessorDto;
 import br.pucminas.moeda.dto.professor.AtualizarProfessorDto;
 import br.pucminas.moeda.dto.professor.CriarProfessorDto;
+import br.pucminas.moeda.dto.professor.ProfessorDto;
 import br.pucminas.moeda.enumeradores.TipoUsuario;
 import br.pucminas.moeda.models.Professor;
 import br.pucminas.moeda.repositories.ProfessorRepository;

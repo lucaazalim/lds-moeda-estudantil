@@ -16,14 +16,15 @@ export default function Page() {
     return <>
         <h1 className="text-center text-2xl font-semibold">Extrato</h1>
         <Table className="w-full table-auto border-separate border-spacing-y-2">
-        <TableHeader>
+            <TableHeader>
                 <TableHead>Data/Hora</TableHead>
                 <TableHead>Descrição</TableHead>
                 <TableHead>Motivo</TableHead>
                 <TableHead className="text-right">Quantidade</TableHead>
             </TableHeader>
             {transacoes.map((transacao, index) => (
-                <TableRow key={transacao.id} className={`${transacao.para ? "bg-red-100" : "bg-green-100"} motion-opacity-in-[0%] motion-duration-[1s] motion-ease-spring-smooth`}>
+                <TableRow key={transacao.id}
+                          className={`${transacao.para ? "bg-red-100" : "bg-green-100"} motion-opacity-in-[0%] motion-duration-[1s] motion-ease-spring-smooth`}>
                     <TableCell className="rounded-l-md">
                         {new Date(transacao.criadaEm).toLocaleString()}
                     </TableCell>

@@ -1,7 +1,6 @@
 package br.pucminas.moeda.dto.usuario;
 
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public abstract class CriarUsuarioDto {

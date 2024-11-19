@@ -1,7 +1,5 @@
 package br.pucminas.moeda.dto.vantagem;
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data

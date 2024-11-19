@@ -1,5 +1,6 @@
 package br.pucminas.moeda.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -23,5 +24,10 @@ public class Vantagem {
     @Min(0)
     @Column(nullable = false)
     private int custo;
+
+    @ManyToOne
+    @JoinColumn(name = "empresa_parceira", nullable = false)
+    @JsonIgnore
+    private EmpresaParceira empresaParceira;
 
 }

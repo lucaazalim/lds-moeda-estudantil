@@ -97,6 +97,7 @@ export interface Vantagem {
     descricao: string;
     foto: string;
     custo: number;
+    empresaParceiraId: number;
 }
 
 export interface CriarVantagemDto {

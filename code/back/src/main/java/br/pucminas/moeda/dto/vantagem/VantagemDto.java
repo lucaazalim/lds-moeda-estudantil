@@ -9,4 +9,6 @@ public class VantagemDto {
 
     private int custo;
 
+    private long empresaParceiraId;
+
 }
