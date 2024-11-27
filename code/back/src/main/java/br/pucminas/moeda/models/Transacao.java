@@ -40,6 +40,14 @@ public class Transacao {
     @Column(nullable = false, updatable = false)
     private LocalDateTime criadaEm;
 
+    public Transacao(int quantidade, String motivo, Usuario de, Usuario para) {
+        this.quantidade = quantidade;
+        this.motivo = motivo;
+        this.de = de;
+        this.para = para;
+        this.criadaEm = LocalDateTime.now();
+    }
+
     @PrePersist
     protected void onCreate() {
         criadaEm = LocalDateTime.now();

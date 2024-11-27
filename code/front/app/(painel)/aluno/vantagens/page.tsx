@@ -3,7 +3,7 @@
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {Vantagem} from "@/lib/types";
 import {useEffect, useState} from "react";
-import {obterVantagens} from "@/lib/vantagemService";
+import {obterVantagens, resgatarVantagem} from "@/lib/vantagemService";
 import {CircleDollarSign} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {criarTransacao} from "@/lib/transacaoService";
@@ -54,11 +54,9 @@ export default function Page() {
 
                             try {
 
-                                await criarTransacao({
-                                    paraId: vantagem.empresaParceiraId,
-                                    quantidade: vantagem.custo,
-                                    motivo: "Compra de vantagem: " + vantagem.nome
-                                });
+                                console.log(vantagem);
+
+                                await resgatarVantagem(vantagem.id);
 
                                 toast({
                                     title: "Vantagem resgatada com sucesso!",

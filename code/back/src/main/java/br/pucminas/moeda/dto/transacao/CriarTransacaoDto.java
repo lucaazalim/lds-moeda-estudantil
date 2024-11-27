@@ -9,6 +9,6 @@ public class CriarTransacaoDto {
 
     private String motivo;
 
-    private long paraId;
+    private Long paraId;
 
 }

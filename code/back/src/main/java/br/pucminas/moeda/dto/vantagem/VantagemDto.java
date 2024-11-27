@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class VantagemDto {
 
+    private Long id;
+
     private String nome, descricao, foto;
 
     private int custo;

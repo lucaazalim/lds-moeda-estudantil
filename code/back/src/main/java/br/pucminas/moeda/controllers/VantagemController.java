@@ -3,12 +3,12 @@ package br.pucminas.moeda.controllers;
 import br.pucminas.moeda.dto.vantagem.AtualizarVantagemDto;
 import br.pucminas.moeda.dto.vantagem.CriarVantagemDto;
 import br.pucminas.moeda.dto.vantagem.VantagemDto;
-import br.pucminas.moeda.models.EmpresaParceira;
-import br.pucminas.moeda.models.Usuario;
-import br.pucminas.moeda.models.Vantagem;
-import br.pucminas.moeda.repositories.EmpresaParceiraRepository;
+import br.pucminas.moeda.models.*;
 import br.pucminas.moeda.repositories.UsuarioRepository;
 import br.pucminas.moeda.repositories.VantagemRepository;
+import br.pucminas.moeda.services.EmailService;
+import br.pucminas.moeda.services.TransacaoService;
+import br.pucminas.moeda.utils.GeradorCupom;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,10 +29,61 @@ public class VantagemController {
     private VantagemRepository vantagemRepository;
 
     @Autowired
-    private EmpresaParceiraRepository empresaParceiraRepository;
+    private TransacaoService transacaoService;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private EmailService emailService;
+
+    @PostMapping("/{id}/resgatar")
+    public void resgatarVantagem(@PathVariable Long id) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuario = usuarioRepository.findByEmail(authentication.getName()).orElseThrow();
+
+        Vantagem vantagem = vantagemRepository.findById(id).orElseThrow();
+        EmpresaParceira empresaParceira = vantagem.getEmpresaParceira();
+
+        String cupom = GeradorCupom.gerarCupom();
+
+        Transacao transacao = new Transacao(
+                vantagem.getCusto(),
+                "Resgate de vantagem: " + vantagem.getNome() + " (Cupom: " + cupom + ")",
+                usuario,
+                empresaParceira
+        );
+
+        String mensagemUsuario = String.format(
+                "A vantagem \"%s\" foi resgatada com sucesso! Informe o cupom %s à empresa %s para coletá-la.",
+                vantagem.getNome(),
+                cupom,
+                empresaParceira.getNome()
+        );
+
+        emailService.sendEmail(new EmailDetails(
+                usuario.getEmail(),
+                mensagemUsuario,
+                "Você resgatou uma vantagem!"
+        ));
+
+        String mensagemEmpresaParceira = String.format(
+                "O aluno %s resgatou a vantagem \"%s\"! O cupom de resgate é %s.",
+                usuario.getNome(),
+                vantagem.getNome(),
+                cupom
+        );
+
+        emailService.sendEmail(new EmailDetails(
+                empresaParceira.getEmail(),
+                mensagemEmpresaParceira,
+                "Um aluno resgatou uma vantagem!"
+        ));
+
+        transacaoService.criarTransacao(transacao);
+
+    }
 
     @PostMapping
     public VantagemDto criarVantagem(@RequestBody CriarVantagemDto criarVantagemDto) {

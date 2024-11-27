@@ -16,7 +16,7 @@ public class Vantagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    private int id;
+    private Long id;
 
     @NotBlank
     private String nome, descricao, foto;

@@ -4,8 +4,8 @@ import br.pucminas.moeda.dto.transacao.CriarTransacaoDto;
 import br.pucminas.moeda.dto.transacao.TransacaoDto;
 import br.pucminas.moeda.models.Transacao;
 import br.pucminas.moeda.models.Usuario;
-import br.pucminas.moeda.repositories.TransacaoRepository;
 import br.pucminas.moeda.repositories.UsuarioRepository;
+import br.pucminas.moeda.services.TransacaoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,13 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransacaoController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
     @Autowired
-    private TransacaoRepository transacaoRepository;
+    private TransacaoService transacaoService;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -36,28 +33,16 @@ public class TransacaoController {
     public TransacaoDto criarTransacao(@RequestBody CriarTransacaoDto criarTransacaoDto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         Usuario de = usuarioRepository.findByEmail(authentication.getName()).orElseThrow();
-
-        if (de.getId() == criarTransacaoDto.getParaId()) {
-            throw new IllegalArgumentException("De e para não podem ser iguais");
-        }
-
-        if (de.getSaldo() < criarTransacaoDto.getQuantidade()) {
-            throw new IllegalArgumentException("Saldo insuficiente!");
-        }
-
         Usuario para = usuarioRepository.findById(criarTransacaoDto.getParaId()).orElseThrow();
+
         Transacao transacao = objectMapper.convertValue(criarTransacaoDto, Transacao.class);
 
         transacao.setDe(de);
         transacao.setPara(para);
 
-        de.setSaldo(de.getSaldo() - criarTransacaoDto.getQuantidade());
-        para.setSaldo(para.getSaldo() + criarTransacaoDto.getQuantidade());
-
-        usuarioRepository.save(de);
-        usuarioRepository.save(para);
-        transacaoRepository.save(transacao);
+        transacaoService.criarTransacao(transacao);
 
         return objectMapper.convertValue(transacao, TransacaoDto.class);
 

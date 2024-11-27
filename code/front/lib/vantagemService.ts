@@ -1,11 +1,29 @@
-import { Vantagem, CriarVantagemDto, AtualizarVantagemDto } from "@/lib/types";
-import { useUsuarioStore } from "@/lib/usuarioService";
-import { toast } from "@/hooks/use-toast";
+import {AtualizarVantagemDto, CriarVantagemDto, Vantagem} from "@/lib/types";
+import {useUsuarioStore} from "@/lib/usuarioService";
+import {toast} from "@/hooks/use-toast";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL + "/vantagens";
 
+export async function resgatarVantagem(vantagemId: number): Promise<void> {
+
+    const {token} = useUsuarioStore.getState();
+
+    const response = await fetch(`${BASE_URL}/${vantagemId}/resgatar`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(response.body ? await response.text() : "Erro ao resgatar vantagem.");
+    }
+
+}
+
 export async function criarVantagem(values: CriarVantagemDto): Promise<Vantagem> {
-    const { token } = useUsuarioStore.getState();
+    const {token} = useUsuarioStore.getState();
 
     const response = await fetch(BASE_URL, {
         method: 'POST',
@@ -24,7 +42,7 @@ export async function criarVantagem(values: CriarVantagemDto): Promise<Vantagem>
 }
 
 export async function atualizarVantagem(vantagemId: number, values: AtualizarVantagemDto): Promise<Vantagem> {
-    const { token } = useUsuarioStore.getState();
+    const {token} = useUsuarioStore.getState();
 
     const response = await fetch(`${BASE_URL}/${vantagemId}`, {
         method: 'PUT',
@@ -43,7 +61,7 @@ export async function atualizarVantagem(vantagemId: number, values: AtualizarVan
 }
 
 export async function excluirVantagem(vantagemId: number): Promise<void> {
-    const { token } = useUsuarioStore.getState();
+    const {token} = useUsuarioStore.getState();
 
     const response = await fetch(`${BASE_URL}/${vantagemId}`, {
         method: 'DELETE',
@@ -69,7 +87,7 @@ export async function excluirVantagem(vantagemId: number): Promise<void> {
 }
 
 export async function obterVantagens(): Promise<Vantagem[]> {
-    const { token } = useUsuarioStore.getState();
+    const {token} = useUsuarioStore.getState();
 
     const response = await fetch(BASE_URL, {
         method: 'GET',
